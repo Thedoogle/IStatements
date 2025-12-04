@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reminders for Me</title>
+    <title>You Matter</title>
     <style>
         * {
             margin: 0;
@@ -53,14 +53,6 @@
             margin-bottom: 35px;
         }
 
-        .section-title {
-            color: #764ba2;
-            font-size: 1.3em;
-            margin-bottom: 15px;
-            border-bottom: 2px solid #667eea;
-            padding-bottom: 8px;
-        }
-
         .reminder-item {
             background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
             padding: 18px;
@@ -71,6 +63,7 @@
             color: #2d3748;
             line-height: 1.6;
             animation: slideIn 0.5s ease-out;
+            text-align: center;
         }
 
         @keyframes slideIn {
@@ -114,6 +107,42 @@
             transform: translateY(0);
         }
 
+        .ground-button {
+            background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 20px;
+            font-size: 1em;
+            cursor: pointer;
+            display: block;
+            margin: 15px auto;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 12px rgba(9, 132, 227, 0.3);
+        }
+
+        .ground-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(9, 132, 227, 0.5);
+        }
+
+        .ground-button:active {
+            transform: translateY(0);
+        }
+
+        .main-content {
+            display: none;
+        }
+
+        .main-content.visible {
+            display: block;
+        }
+
+        .divider {
+            border-bottom: 2px solid #667eea;
+            margin: 30px 0 20px 0;
+        }
+
         @media (max-width: 600px) {
             .container {
                 padding: 25px;
@@ -131,26 +160,30 @@
 </head>
 <body>
     <div class="container">
-        <h1>🌟 Reminders for Right Now 🌟</h1>
+        <h1>🌟 You Matter 🌟</h1>
         
         <div class="section">
-            <div class="section-title">Ground Yourself First</div>
             <div class="reminder-item">Body Scan</div>
             <div class="reminder-item">Breath</div>
             <div class="reminder-item">I can talk about it when things are less intense</div>
+            <button class="ground-button" onclick="toggleContent()">I Have Grounded</button>
         </div>
 
-        <div class="section">
-            <div class="section-title">Remember This</div>
-            <div class="reminder-item primary-reminder" id="primary-reminder"></div>
-        </div>
+        <div class="main-content" id="main-content">
+            <div class="divider"></div>
 
-        <div class="section">
-            <div class="section-title">And Also...</div>
-            <div id="random-reminders"></div>
-        </div>
+            <div class="section">
+                <div class="reminder-item primary-reminder" id="primary-reminder"></div>
+            </div>
 
-        <button class="refresh-button" onclick="loadReminders()">Show Me Different Reminders</button>
+            <div class="divider"></div>
+
+            <div class="section">
+                <div id="random-reminders"></div>
+            </div>
+
+            <button class="refresh-button" onclick="loadReminders()">Show Me Different Reminders</button>
+        </div>
     </div>
 
     <script>
@@ -187,16 +220,13 @@
         }
 
         function loadReminders() {
-            // Set primary reminder (randomly chosen from variations)
             const primaryReminder = primaryVariations[Math.floor(Math.random() * primaryVariations.length)];
             document.getElementById('primary-reminder').textContent = primaryReminder;
 
-            // Get 2-3 random reminders
             const numberOfReminders = Math.random() < 0.5 ? 2 : 3;
             const shuffled = shuffleArray(randomReminders);
             const selected = shuffled.slice(0, numberOfReminders);
 
-            // Display random reminders
             const container = document.getElementById('random-reminders');
             container.innerHTML = '';
             
@@ -210,7 +240,19 @@
             });
         }
 
-        // Load reminders on page load
+        function toggleContent() {
+            const content = document.getElementById('main-content');
+            const button = document.querySelector('.ground-button');
+            
+            if (content.classList.contains('visible')) {
+                content.classList.remove('visible');
+                button.textContent = 'I Have Grounded';
+            } else {
+                content.classList.add('visible');
+                button.textContent = 'Hide Reminders';
+            }
+        }
+
         loadReminders();
     </script>
 </body>
