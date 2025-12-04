@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reminders for Me</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 700px;
+            width: 100%;
+            padding: 40px;
+            animation: fadeIn 0.6s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            color: #667eea;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2em;
+        }
+
+        .section {
+            margin-bottom: 35px;
+        }
+
+        .section-title {
+            color: #764ba2;
+            font-size: 1.3em;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 8px;
+        }
+
+        .reminder-item {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 18px;
+            margin: 12px 0;
+            border-radius: 12px;
+            border-left: 5px solid #667eea;
+            font-size: 1.1em;
+            color: #2d3748;
+            line-height: 1.6;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .primary-reminder {
+            background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%);
+            border-left-color: #e17055;
+            font-weight: 600;
+            font-size: 1.2em;
+        }
+
+        .refresh-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 1.1em;
+            cursor: pointer;
+            display: block;
+            margin: 30px auto 0;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .refresh-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        }
+
+        .refresh-button:active {
+            transform: translateY(0);
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 25px;
+            }
+            
+            h1 {
+                font-size: 1.5em;
+            }
+            
+            .reminder-item {
+                font-size: 1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🌟 Reminders for Right Now 🌟</h1>
+        
+        <div class="section">
+            <div class="section-title">Ground Yourself First</div>
+            <div class="reminder-item">Body Scan</div>
+            <div class="reminder-item">Breath</div>
+            <div class="reminder-item">I can talk about it when things are less intense</div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">Remember This</div>
+            <div class="reminder-item primary-reminder" id="primary-reminder"></div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">And Also...</div>
+            <div id="random-reminders"></div>
+        </div>
+
+        <button class="refresh-button" onclick="loadReminders()">Show Me Different Reminders</button>
+    </div>
+
+    <script>
+        const primaryVariations = [
+            "I can be anxious and still manage what I need to do",
+            "I can feel anxious and still take care of what matters",
+            "Anxiety doesn't stop me from managing what I need to do",
+            "I can handle what I need to do, even while feeling anxious"
+        ];
+
+        const randomReminders = [
+            "It can be dealt with later",
+            "I need to manage my emotion - I don't need to problem solve right now",
+            "Emotions won't last forever",
+            "I am uncomfortable right now but I can accept it",
+            "I can be anxious and still manage what I need to do",
+            "I am strong enough to handle what I am taking on right now",
+            "I can work up to it",
+            "I can take all the time I need to (Breath, relax, etc.)",
+            "It's ok to feel (Sad, Lonely, Panic, Anxiety, Stress, etc.)",
+            "My thoughts don't control my life, I do",
+            "My feelings don't control me",
+            "I can think different thoughts if I want to - remembering past good times, thinking about projects, learning for a job, or anything positive",
+            "Just because I feel (Sad, Lonely, Panic, Anxiety, Stress, etc.) doesn't mean I am those things or make them true"
+        ];
+
+        function shuffleArray(array) {
+            const newArray = [...array];
+            for (let i = newArray.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+            }
+            return newArray;
+        }
+
+        function loadReminders() {
+            // Set primary reminder (randomly chosen from variations)
+            const primaryReminder = primaryVariations[Math.floor(Math.random() * primaryVariations.length)];
+            document.getElementById('primary-reminder').textContent = primaryReminder;
+
+            // Get 2-3 random reminders
+            const numberOfReminders = Math.random() < 0.5 ? 2 : 3;
+            const shuffled = shuffleArray(randomReminders);
+            const selected = shuffled.slice(0, numberOfReminders);
+
+            // Display random reminders
+            const container = document.getElementById('random-reminders');
+            container.innerHTML = '';
+            
+            selected.forEach((reminder, index) => {
+                setTimeout(() => {
+                    const div = document.createElement('div');
+                    div.className = 'reminder-item';
+                    div.textContent = reminder;
+                    container.appendChild(div);
+                }, index * 100);
+            });
+        }
+
+        // Load reminders on page load
+        loadReminders();
+    </script>
+</body>
+</html>
