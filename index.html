@@ -138,6 +138,18 @@
             display: block;
         }
 
+        .reminder-item a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.2s;
+        }
+
+        .reminder-item a:hover {
+            color: #764ba2;
+            text-decoration: underline;
+        }
+
         .divider {
             border-bottom: 2px solid #667eea;
             margin: 30px 0 20px 0;
@@ -163,7 +175,7 @@
         <h1>🌟 You Matter 🌟</h1>
         
         <div class="section">
-            <div class="reminder-item">Body Scan</div>
+            <div class="reminder-item"><a href="https://www.therapistaid.com/worksheets/body-scan-script" target="_blank">Body Scan</a></div>
             <div class="reminder-item">Breath</div>
             <div class="reminder-item">I can talk about it when things are less intense</div>
             <button class="ground-button" onclick="toggleContent()">I Have Grounded</button>
